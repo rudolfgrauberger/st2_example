@@ -1,4 +1,11 @@
-# st2_example
+# Einleitung
+Bei diesem Projekt handelt es sich initial um das Beispiel-Projekt, das Hr. Dr. Bente in dem Blog-Post [Aufsetzen von Spring Data JPA, mit Beispielprojekt](http://blogs.gm.fh-koeln.de/bente/2017/05/11/aufsetzen-von-spring-data-jpa-mit-beispielprojekt/) zur Verfügung gestellt hat.
+
+Als erstes wurde ein Kompilefehler nach dem Öffnen mit IntelliJ in der pom.xml korrigiert. 
+
+Anschließend werden in diesem Repository die Coding-Aufgaben für das ST2-Praktikum erledigt und versioniert.
+
+# Kompilieren/Starten
 
 1. InstalliJ starten
 2. "Checkout from Version Control" und da Git auswählen
