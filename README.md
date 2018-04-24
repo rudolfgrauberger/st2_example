@@ -5,7 +5,7 @@ Als erstes wurde ein Kompilefehler nach dem Öffnen mit IntelliJ in der pom.xml 
 
 Anschließend werden in diesem Repository die Coding-Aufgaben für das ST2-Praktikum erledigt und versioniert.
 
-# Status
+# 'master'-Branch Status
 [![Build Status](https://travis-ci.com/rudolfgrauberger/st2_example.svg?token=4DtPC3nnfRtf9x87E3hi&branch=master)](https://travis-ci.com/rudolfgrauberger/st2_example)
 
 # Kompilieren/Starten
