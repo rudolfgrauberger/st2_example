@@ -16,7 +16,7 @@ public class Speisekarte {
    private Date gueltig_von;
    private Date guiltig_bis;
 
-   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   @ManyToMany(fetch = FetchType.EAGER)
    private Set<Gericht> gerichte = new HashSet<Gericht>();
 
    public Date getGueltig_von() {
@@ -61,5 +61,11 @@ public class Speisekarte {
    public Speisekarte(Date von, Date bis) {
       this.setGueltig_von(von);
       this.setGuiltig_bis(bis);
+   }
+
+   @Override
+   public String toString() {
+      return String.format("ID: %s | Von: %s | Bis: %s",
+            id, gueltig_von, guiltig_bis);
    }
 }

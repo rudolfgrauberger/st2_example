@@ -10,10 +10,10 @@ public class BestellungGericht {
 
    private int menge;
 
-   @ManyToOne(cascade = CascadeType.ALL)
+   @ManyToOne
    private Bestellung bestellung;
 
-   @ManyToOne(cascade = CascadeType.ALL)
+   @ManyToOne
    private Gericht gericht;
 
    public int getMenge() {
@@ -40,5 +40,16 @@ public class BestellungGericht {
       this.bestellung = bestellung;
       this.gericht = gericht;
       this.setMenge(menge);
+
+      this.bestellung.addPosition(this);
+      this.gericht.addInPosition(this);
+   }
+
+   @Override
+   public String toString() {
+      double price = getGericht().getPreis();
+      int count = getMenge();
+      return String.format("Position# ID: %s | Gericht: %s | Preis: %f | Menge: %d | Summe: %f",
+            id, getGericht().getName(), price, count, price * count);
    }
 }

@@ -17,7 +17,7 @@ public class Gericht {
    @Embedded
    private Zubereitungsanleitung anleitung;
 
-   @ManyToMany(mappedBy = "gerichte")
+   @ManyToMany(mappedBy = "gerichte", fetch = FetchType.EAGER)
    private Set<Speisekarte> speisekarten = new HashSet<Speisekarte>();
 
    @OneToMany(mappedBy = "gericht")
@@ -63,12 +63,22 @@ public class Gericht {
       karte.removeGericht(this);
    }
 
+   public void addInPosition(BestellungGericht position) {
+      bestellungGericht.add(position);
+   }
+
    protected Gericht() {
 
    }
 
-   public Gericht(String name, double preis) {
+   public Gericht(String name, double preis, Zubereitungsanleitung anleitung) {
       this.setName(name);
       this.setPreis(preis);
+      this.anleitung = anleitung;
+   }
+
+   public String toString() {
+      return String.format("ID: %s | Name: %s | Preis: %s | Zubereitungsanleitung: %s",
+                              id, name, preis, anleitung);
    }
 }

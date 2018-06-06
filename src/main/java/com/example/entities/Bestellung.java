@@ -18,7 +18,7 @@ public class Bestellung {
    @Enumerated(EnumType.STRING)
    private Bestellstatus bestellstatus;
 
-   @OneToMany(mappedBy = "bestellung")
+   @OneToMany(mappedBy = "bestellung", fetch = FetchType.EAGER)
    private Set<BestellungGericht> bestellungGericht = new HashSet<BestellungGericht>();
 
    public Bestellstatus getBestellstatus() {
@@ -49,8 +49,21 @@ public class Bestellung {
       return Collections.unmodifiableSet(bestellungGericht);
    }
 
-   //needed for JPA
-   protected Bestellung() {
+   public void addPosition(BestellungGericht position) {
+      if (!bestellungGericht.contains(position)) {
+         bestellungGericht.add(position);
+      }
+   }
+
+   public Bestellung() {
+      this.datum = new Date();
+      this.bestellstatus = Bestellstatus.IN_BEARBEITUNG;
+   }
+
+   public String toString()
+   {
+      double summe = bestellungGericht.stream().mapToDouble(x -> x.getGericht().getPreis() * x.getMenge()).sum();
+      return String.format("ID: %s | Ordnernummer: %s |  Datum: %s | Gesamtsumme: %f", id, ordernummer, datum, summe);
 
    }
 }

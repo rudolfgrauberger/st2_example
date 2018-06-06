@@ -18,4 +18,13 @@ public class Zubereitungsanleitung {
    protected Zubereitungsanleitung() {
 
    }
+
+  public Zubereitungsanleitung(String anleitung) {
+      this.setAnleitung(anleitung);
+   }
+
+   @Override
+   public String toString() {
+      return anleitung;
+   }
 }
