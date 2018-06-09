@@ -19,7 +19,7 @@ public class Bestellung {
    private Bestellstatus bestellstatus;
 
    @OneToMany(mappedBy = "bestellung", fetch = FetchType.EAGER)
-   private Set<BestellungGericht> bestellungGericht = new HashSet<BestellungGericht>();
+   private Set<BestellPosition> bestellPosition = new HashSet<BestellPosition>();
 
    public Bestellstatus getBestellstatus() {
       return bestellstatus;
@@ -45,13 +45,13 @@ public class Bestellung {
       this.datum = datum;
    }
 
-   public Set<BestellungGericht> getBestellungGericht() {
-      return Collections.unmodifiableSet(bestellungGericht);
+   public Set<BestellPosition> getBestellungGericht() {
+      return Collections.unmodifiableSet(bestellPosition);
    }
 
-   public void addPosition(BestellungGericht position) {
-      if (!bestellungGericht.contains(position)) {
-         bestellungGericht.add(position);
+   public void addPosition(BestellPosition position) {
+      if (!bestellPosition.contains(position)) {
+         bestellPosition.add(position);
       }
    }
 
@@ -62,7 +62,7 @@ public class Bestellung {
 
    public String toString()
    {
-      double summe = bestellungGericht.stream().mapToDouble(x -> x.getGericht().getPreis() * x.getMenge()).sum();
+      double summe = bestellPosition.stream().mapToDouble(x -> x.getGericht().getPreis() * x.getMenge()).sum();
       return String.format("ID: %s | Ordnernummer: %s |  Datum: %s | Gesamtsumme: %f", id, ordernummer, datum, summe);
 
    }

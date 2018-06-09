@@ -1,7 +1,7 @@
 package com.example;
 
 import com.example.entities.Bestellung;
-import com.example.entities.BestellungGericht;
+import com.example.entities.BestellPosition;
 import com.example.entities.Gericht;
 import com.example.entities.Speisekarte;
 import com.example.factories.BestellungFactory;
@@ -72,9 +72,10 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
        //speisekarteRepository.save(normal);
 
        Bestellung bestellung1 = new Bestellung();
+       bestellung1.setOrdernummer("O1010");
 
-       BestellungGericht position1 = BestellungFactory.createBestellPosition(bestellung1, gekochtesGemuese, 1);
-       BestellungGericht position2 = BestellungFactory.createBestellPosition(bestellung1, steakNuessen, 2);
+       BestellPosition position1 = BestellungFactory.createBestellPosition(bestellung1, gekochtesGemuese, 1);
+       BestellPosition position2 = BestellungFactory.createBestellPosition(bestellung1, steakNuessen, 2);
 
        bestellungRepository.save(bestellung1);
 

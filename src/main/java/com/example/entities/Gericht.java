@@ -21,7 +21,7 @@ public class Gericht {
    private Set<Speisekarte> speisekarten = new HashSet<Speisekarte>();
 
    @OneToMany(mappedBy = "gericht")
-   private Set<BestellungGericht> bestellungGericht = new HashSet<BestellungGericht>();
+   private Set<BestellPosition> bestellungGericht = new HashSet<BestellPosition>();
 
    public String getName() {
       return name;
@@ -39,7 +39,7 @@ public class Gericht {
       this.preis = preis;
    }
 
-   public Set<BestellungGericht> getBestellungGericht() {
+   public Set<BestellPosition> getBestellungGericht() {
       return Collections.unmodifiableSet(bestellungGericht);
    }
 
@@ -63,7 +63,7 @@ public class Gericht {
       karte.removeGericht(this);
    }
 
-   public void addInPosition(BestellungGericht position) {
+   public void addInPosition(BestellPosition position) {
       bestellungGericht.add(position);
    }
 
