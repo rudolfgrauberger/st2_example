@@ -41,4 +41,8 @@ public class GerichtService {
                 (speisekarteRepository.findByName(speisekarte),false);
         gerichtRepository.save(nGericht);
     }
+
+    public Gericht getByName(String name) {
+        return gerichtRepository.findByName(name);
+    }
 }

@@ -1,5 +1,8 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,9 +14,11 @@ public class BestellPosition {
    private int menge;
 
    @ManyToOne
+   @JsonManagedReference
    private Bestellung bestellung;
 
    @ManyToOne
+   @JsonBackReference
    private Gericht gericht;
 
    public int getMenge() {

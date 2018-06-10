@@ -1,5 +1,7 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Date;
@@ -36,6 +38,7 @@ public class Speisekarte {
       this.guiltig_bis = guiltig_bis;
    }
 
+   @JsonManagedReference
    public Set<Gericht> getGerichte() {
       // erzwingt Benutzung der addGericht- und removeGericht-Methoden
       return Collections.unmodifiableSet(gerichte);

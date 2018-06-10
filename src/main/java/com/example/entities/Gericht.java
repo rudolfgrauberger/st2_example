@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -46,6 +47,7 @@ public class Gericht {
       return Collections.unmodifiableSet(bestellPosition);
    }
 
+   @JsonBackReference
    public Set<Speisekarte> getSpeisekarte() {
       // erzwingt Benutzung der addSpeisekarte- und removeSpeisekarte-Methoden
       return Collections.unmodifiableSet(speisekarten);

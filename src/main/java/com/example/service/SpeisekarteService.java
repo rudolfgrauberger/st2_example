@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.RequestBodys.GerichtRequest;
 import com.example.entities.Gericht;
 import com.example.entities.Speisekarte;
 import com.example.factories.GerichtFactory;
@@ -43,7 +44,20 @@ public class SpeisekarteService {
                 (gerichtRepository.findByName(gericht), false);
     }
 
-    public void addGericht(Gericht gericht, String speisekarte) {
-        speisekarteRepository.findByName(speisekarte).addGericht(gericht);
+    public void addGericht(GerichtRequest gericht, String speisekarte) {
+        Gericht nGericht = gerichtRepository.findByName(gericht.getName());
+
+        if(nGericht == null)
+            speisekarteRepository.findByName(speisekarte).addGericht(gericht.asGerichtEntity());
+        else
+            speisekarteRepository.findByName(speisekarte).addGericht(nGericht);
     }
+
+    public void addGericht(String gericht, String speisekarte) {
+        speisekarteRepository.findByName(speisekarte).addGericht(gerichtRepository.findByName(gericht));
+    }
+
+
+
+
 }

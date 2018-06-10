@@ -17,11 +17,11 @@ public class GerichtController {
     GerichtService gerichtService;
 
     // BC1, BC4, BC7
+    // OK
     @GetMapping("/gericht")
     public @ResponseBody List<Gericht> getGericht() {
         System.out.println("Get -> /gericht");
         List<Gericht> gerichte = gerichtService.getAllGerichte();
-        // ToDo: fix Circular view path [gericht]: would dispatch back to the current handler URL [/gericht] again.
         return gerichte;
     }
     // OK

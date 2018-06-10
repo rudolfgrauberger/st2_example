@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.JsonFormat.DateInput;
+import com.example.RequestBodys.GerichtRequest;
 import com.example.RequestBodys.SpeisekarteRequest;
 import com.example.entities.Gericht;
 import com.example.entities.Speisekarte;
@@ -21,11 +22,11 @@ public class SpeisekarteController {
     SpeisekarteService speisekarteService;
 
     // BC2, BC5
+    // OK
     @GetMapping("/speisekarte")
-    public List<Speisekarte> speisekarte() {
+    public @ResponseBody  List<Speisekarte> speisekarte() {
         System.out.println("Get -> /gericht");
         List<Speisekarte> speisekarten = speisekarteService.getAll();
-        // ToDo: fix Circular view path [speisekarte]: would dispatch back to the current handler URL [/speisekarte] again.
         return speisekarten;
     }
 
@@ -43,11 +44,11 @@ public class SpeisekarteController {
     }
 
     // BC3?
+    // OK
     @PostMapping("/speisekarte/{speisekarte}")
-    public String postSpeisekarteWithObject(@RequestBody Gericht gericht, @PathVariable String speisekarte) {
-        System.out.println("Post -> /speisekarte/{speisekarte} | Added: " + gericht);
+    public @ResponseBody String postSpeisekarteWithObject(@RequestBody GerichtRequest gericht, @PathVariable String speisekarte) {
+        System.out.println("Post -> /speisekarte/{speisekarte} | Added: " + gericht.getName());
         speisekarteService.addGericht(gericht, speisekarte);
-        // ToDo: fix Can not handle managed/back reference 'defaultReference': no back reference property found from type [collection type... (BestellPosition)
         return "/speisekarte";
     }
 
@@ -59,7 +60,6 @@ public class SpeisekarteController {
         System.out.println("Delete -> /gericht/{gericht}/{speisekarte}");
         speisekarteService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
         // ToDo: Better return value
-        // ToDo: Fix Circulation
         return "/speisekarte";
     }
 
