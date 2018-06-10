@@ -1,5 +1,7 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,6 +41,7 @@ public class Gericht {
       this.preis = preis;
    }
 
+   @JsonManagedReference // um Endlosschleife zu verhindern
    public Set<BestellPosition> getBestellungGericht() {
       return Collections.unmodifiableSet(bestellungGericht);
    }

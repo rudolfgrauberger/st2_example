@@ -53,7 +53,7 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
        Gericht paniertesSellerieGruenkohl = GerichtFactory.createGericht("Panierter Sellerie gebettet auf Grünkohl", 16.1, "Sehr heiß abkochen", vegetarisch);
        Gericht steakNuessen = GerichtFactory.createGericht("Steak mit Nüssen", 23.99, normal);
 
-       // Bei ManyToMany, muss die Seite die mappendBy hat (also nicht verantwortlich ist), als erstes gespeichert
+       // Bei ManyToMany, muss die Seite die mappedBy hat (also nicht verantwortlich ist), als erstes gespeichert
        // werden, denn hierbei werden die Referenzen noch nicht mitgeschrieben. Erst die Seite bei der das ManyToMany
        // steht, werden beim Speichern tatsächlich die Referenzen geschrieben.
        gerichtRepository.save(gekochtesGemuese);

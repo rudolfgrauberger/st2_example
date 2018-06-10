@@ -1,5 +1,7 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Date;
@@ -45,6 +47,7 @@ public class Bestellung {
       this.datum = datum;
    }
 
+   @JsonBackReference // um Endlosschleife zu verhindern
    public Set<BestellPosition> getBestellungGericht() {
       return Collections.unmodifiableSet(bestellPosition);
    }

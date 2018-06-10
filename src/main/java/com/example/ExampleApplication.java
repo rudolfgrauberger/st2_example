@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.service.BestellungService;
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,12 +11,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan({"com.example.*"})
-@EntityScan("com.example.*")
-@EnableJpaRepositories(basePackages="com.example")
 public class ExampleApplication {
 
 	public static void main(String[] args) {
+		BestellungService bestellungService = new BestellungService();
 		SpringApplication.run(ExampleApplication.class, args);
 		
 	}
