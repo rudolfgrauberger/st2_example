@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public class DateInput
 {
-    private static DateFormat format = new SimpleDateFormat("dd-mm-yyyy", Locale.GERMAN);
+    private static DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date datum;
