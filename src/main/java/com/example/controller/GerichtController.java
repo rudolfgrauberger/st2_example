@@ -50,7 +50,7 @@ public class GerichtController {
     }
     // OK
     @PostMapping("/gerichte")
-    @ResponseBody
+    @ResponseBody // Objekt + URI
     @ResponseStatus(value = HttpStatus.CREATED)
     public GerichtResponse postGericht(@RequestBody GerichtRequest gerichtRequest) {
         System.out.println("POST -> /gerichte | Name: "+gerichtRequest.getName() +" Preis: "+gerichtRequest.getPreis());
@@ -66,18 +66,27 @@ public class GerichtController {
 
     // BC3
     @PostMapping("/gerichte/{gericht}")
-    public @ResponseBody String postGerichtWithObject(@RequestBody SpeisekarteRequest sR, @PathVariable String gericht) {
+    public @ResponseBody GerichtResponse postGerichtWithObject(@RequestBody SpeisekarteRequest sR, @PathVariable String gericht) {
         System.out.println("Post -> /speisekarten/{speisekarte} | Added: " + sR.getName());
         gerichtService.addSpeisekarte(sR, gericht);
-        return "/speisekarten";
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(gericht).toUri();
+
+        return new GerichtResponse(location, gerichtService.getByName(gericht));
     }
     // BC6
-    // OK
     @DeleteMapping("/gerichte/{gericht}/{speisekarte}")
-    public @ResponseBody String deleteSpeisekarteFromGericht(@PathVariable String gericht, @PathVariable String speisekarte) {
+    @ResponseBody
+    public GerichtResponse deleteSpeisekarteFromGericht(@PathVariable String gericht, @PathVariable String speisekarte) {
         System.out.println("Delete -> /gerichte/{gericht}/{speisekarte}");
         gerichtService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
-        // ToDo: Better return value
-        return "/gerichte";
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/gerichte/{id}")
+                .buildAndExpand(gericht).toUri();
+
+        return new GerichtResponse(location, gerichtService.getByName(gericht));
     }
 }
