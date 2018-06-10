@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller("bestellungController")
@@ -29,6 +30,7 @@ public class BestellungController {
         public Bestellung bestellung(@RequestBody DateInput datum) {
         System.out.println("Post -> /bestellungen | Datum: "+datum.getDatum());
         Bestellung bestellung = new Bestellung(datum.getDatum());
+        bestellung.setOrdernummer(UUID.randomUUID().toString());
         bestellungService.saveBestellung(bestellung);
         return bestellung;
     }
