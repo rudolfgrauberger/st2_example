@@ -3,7 +3,6 @@ package com.example.service;
 import com.example.RequestBodys.GerichtRequest;
 import com.example.entities.Gericht;
 import com.example.entities.Speisekarte;
-import com.example.factories.GerichtFactory;
 import com.example.factories.SpeisekarteFactory;
 import com.example.repositories.GerichtRepository;
 import com.example.repositories.SpeisekarteRepository;
@@ -52,7 +51,7 @@ public class SpeisekarteService {
         // Hinweiß: findAllByName.get(0) weil wir manchmal mehrere Speisekarten mit dem selben Namen haben
         // ist nur als Übergangslösung so implementiert.
         if(nGericht == null)
-            speisekarteRepository.findAllByName(speisekarte).get(0).addGericht(gericht.asGerichtEntity());
+            speisekarteRepository.findAllByName(speisekarte).get(0).addGericht(gericht.asEntity());
         else
             speisekarteRepository.findAllByName(speisekarte).get(0).addGericht(nGericht);
     }
