@@ -61,6 +61,6 @@ public class SpeisekarteService {
     }
 
     public Speisekarte getByName(String name) {
-        return speisekarteRepository.findByName(name);
+        return speisekarteRepository.findAllByName(name).get(0);
     }
 }
