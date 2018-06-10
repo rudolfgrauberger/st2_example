@@ -1,0 +1,49 @@
+package com.example.service;
+
+import com.example.entities.Gericht;
+import com.example.entities.Speisekarte;
+import com.example.factories.GerichtFactory;
+import com.example.factories.SpeisekarteFactory;
+import com.example.repositories.GerichtRepository;
+import com.example.repositories.SpeisekarteRepository;
+import org.assertj.core.util.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+
+@Service("speisekarteService")
+public class SpeisekarteService {
+    @Autowired
+    GerichtRepository gerichtRepository;
+    @Autowired
+    SpeisekarteRepository speisekarteRepository;
+
+    public SpeisekarteService() {
+
+    }
+
+    public Speisekarte createAndSaveSpeisekarte(Date datumVon, Date datumBis) {
+        Speisekarte speisekarte = SpeisekarteFactory.createSpeisekarte(datumVon, datumBis);
+        speisekarteRepository.save(speisekarte);
+        return speisekarte;
+    }
+
+    public void saveSpeisekarte(Speisekarte speisekarte) {
+        speisekarteRepository.save(speisekarte);
+    }
+
+    public List<Speisekarte> getAll() {
+        return Lists.newArrayList(speisekarteRepository.findAll());
+    }
+
+    public void deleteGerichtFromSpeisekarte(String gericht, Long speisekarte) {
+        speisekarteRepository.findOne(speisekarte).removeGericht
+                (gerichtRepository.findByName(gericht));
+    }
+
+    public void addGericht(Gericht gericht, long speisekarte) {
+        speisekarteRepository.findOne(speisekarte).addGericht(gericht);
+    }
+}

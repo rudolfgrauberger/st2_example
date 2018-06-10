@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SpeisekarteRepository extends CrudRepository<Speisekarte, Long> {
-    // ToDo: implementieren
 }

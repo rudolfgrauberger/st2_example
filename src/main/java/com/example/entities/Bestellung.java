@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@JsonAutoDetect
 @Entity
 public class Bestellung {
    @Id
@@ -60,6 +62,11 @@ public class Bestellung {
 
    public Bestellung() {
       this.datum = new Date();
+      this.bestellstatus = Bestellstatus.IN_BEARBEITUNG;
+   }
+
+   public Bestellung(Date datum) {
+      this.datum = datum;
       this.bestellstatus = Bestellstatus.IN_BEARBEITUNG;
    }
 

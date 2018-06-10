@@ -1,30 +1,45 @@
 package com.example.controller;
 
+import com.example.entities.Gericht;
+import com.example.service.GerichtService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@Controller
 public class GerichtController {
+    @Autowired
+    GerichtService gerichtService;
+
     // BC1, BC4, BC7
     @GetMapping("/gericht")
-    public String getGericht(Model model) {
+    public List<Gericht> getGericht() {
         System.out.println("Get -> /gericht");
-        model.addAttribute("id", 10);
-        return "/test";
+        List<Gericht> gerichte = gerichtService.getAllGerichte();
+        // ToDo: fix Circular view path [gericht]: would dispatch back to the current handler URL [/gericht] again.
+        return gerichte;
     }
     @PostMapping("/gericht")
-    public String postGericht(Model model) {
-        System.out.println("Get -> /gericht");
-        model.addAttribute("id", 10);
-        return "/test";
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Gericht postGericht(@RequestBody String name) {
+        System.out.println("POST -> /gericht | Name: "+name +" Preis: "+0);
+        Gericht gericht = gerichtService.createAndSaveGericht(name, 0);
+        // ToDo: implement request body with preis
+        return gericht;
     }
     // BC6
     @DeleteMapping("/gericht/{gericht}/{speisekarte}")
-    public String deleteSpeisekarteFromGericht(Model model) {
+    public String deleteSpeisekarteFromGericht(@PathVariable String gericht, @PathVariable Long speisekarte) {
         System.out.println("Delete -> /gericht/{gericht}/{speisekarte}");
-        model.addAttribute("id", 10);
-        return "/test";
+        gerichtService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
+        // ToDo: Better return value
+        // ToDo: Fix Circulation
+        return "/gericht";
     }
 
     // Nur bei POST {name = …}

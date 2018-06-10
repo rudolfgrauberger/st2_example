@@ -1,14 +1,16 @@
 package com.example.controller;
 
+import com.example.JsonFormat.DateInput;
 import com.example.entities.Bestellung;
 import com.example.factories.BestellungFactory;
 import com.example.service.BestellungService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.Date;
+import java.util.List;
 
 
 @Controller
@@ -25,10 +27,13 @@ public class BestellungController {
 
     // A1
     @PostMapping("/bestellung")
-        public String bestellung() {
-        System.out.println("Post -> /bestellung");
-        Bestellung bestellung = new Bestellung();
-        return "\\"+bestellung.getOrdernummer();
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.CREATED)
+        public Bestellung bestellung(@RequestBody DateInput datum) {
+        System.out.println("Post -> /bestellung | Datum: "+datum.getDatum());
+        Bestellung bestellung = new Bestellung(datum.getDatum());
+        bestellungService.saveBestellung(bestellung);
+        return bestellung;
     }
 
     // A3, A5, A6
@@ -39,35 +44,26 @@ public class BestellungController {
         System.out.println("Get -> /bestellung/"+bestellung.getOrdernummer());
         return bestellung;
     }
-    /*
-    @GetMapping("/bestellung/{ordernummer}")
-    public ModelAndView getBestellungOrdernummer(@PathVariable String ordernummer) {
-        Bestellung bestellungBean = new Bestellung();
-        bestellungBean.setOrdernummer(ordernummer);
-
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("bestellungBean", bestellungBean);
-        mav.setViewName("bestellungDetail");
-
-        System.out.println("Get -> /bestellung/{ordernummer}");
-        return mav;
-    }*/
     @DeleteMapping("/bestellung/{ordernummer}")
-    public String deleteBestellungOrdernummer(Model model) {
-        System.out.println("Delete -> /bestellung/{ordernummer}");
-        return "test";
+    public String deleteBestellungOrdernummer(@PathVariable String ordernummer) {
+        System.out.println("Delete -> /bestellung/"+ordernummer);
+        bestellungService.deleteBestellung(ordernummer);
+        // ToDo: Referenzen mit löschen und return passend zum Ergebnis (gelöscht ja/nein)
+        return "/bestellung";
     }
     @PutMapping("/bestellung/{ordernummer}")
-    public String putBestellungOrdernummer(@PathVariable int ordernummer, @ModelAttribute Bestellung formBean) {
-        // implement a save of all of the form bean information
+    public String putBestellungOrdernummer(@PathVariable String ordernummer, @RequestBody DateInput datum) {
         System.out.println("Put -> /bestellung/{ordernummer}");
-        return "test";
+        bestellungService.changeDate(ordernummer, datum);
+        // ToDo: Right Response
+        return "/"+ordernummer;
     }
 
-    // A2, A4
-    @GetMapping("/bestellung?operation= greaterthan&datum={datum}")
-    public String getBestellungOrdernummerGreaterThanDate(Model model) {
+    // A2, A4 // ToDo: Implement
+    @RequestMapping(value="/bestellung?operation= greaterthan&datum={datum}", method = RequestMethod.GET)
+    public List<Bestellung> getBestellungOrdernummerGreaterThanDate(@PathVariable Date datum) {
         System.out.println("Get -> /bestellung?operation= greaterthan&datum={datum}");
-        return "test";
+        List<Bestellung> bestellungList = bestellungService.greaterThanDatum(datum);
+        return bestellungList;
     }
 }
