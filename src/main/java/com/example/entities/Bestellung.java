@@ -23,7 +23,7 @@ public class Bestellung {
    @Enumerated(EnumType.STRING)
    private Bestellstatus bestellstatus;
 
-   @OneToMany(mappedBy = "bestellung", fetch = FetchType.EAGER)
+   @OneToMany(mappedBy = "bestellung", fetch = FetchType.EAGER, orphanRemoval=true)
    private Set<BestellPosition> bestellPosition = new HashSet<BestellPosition>();
 
    public Bestellstatus getBestellstatus() {

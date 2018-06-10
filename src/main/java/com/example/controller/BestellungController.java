@@ -97,7 +97,6 @@ public class BestellungController {
         return response;
     }
 
-    // ToDo: Fix Referentielle Integrität -.-
     @DeleteMapping("/bestellungen/{ordernummer}")
     @ResponseBody
     public ResponseEntity<Bestellung> deleteBestellungOrdernummer(@PathVariable String ordernummer) {
