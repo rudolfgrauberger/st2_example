@@ -75,10 +75,10 @@ public class BestellungController {
     }
 
     // A2, A4
-    @GetMapping(value = "/bestellungen", params = { "filter[date_min]" })
+    @GetMapping(value = "/bestellungen", params = { "filter[date_greaterthan]" })
     @ResponseBody
-    public List<Bestellung> getBestellungOrdernummerGreaterThanDate(@RequestParam("filter[date_min]") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
-        System.out.println("Get -> /bestellung?filter[date_min]={datum}");
+    public List<Bestellung> getBestellungOrdernummerGreaterThanDate(@RequestParam("filter[date_greaterthan]") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+        System.out.println("Get -> /bestellung?filter[date_greaterthan]={datum}");
 
         System.out.println("Date: " + date);
 
