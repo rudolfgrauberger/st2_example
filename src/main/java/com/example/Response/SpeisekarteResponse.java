@@ -1,17 +1,17 @@
 package com.example.Response;
 
-import com.example.entities.Bestellung;
 import com.example.entities.Gericht;
+import com.example.entities.Speisekarte;
 
 import java.net.URI;
 
-public class GerichtResponse {
+public class SpeisekarteResponse {
     private URI location;
-    private Gericht gericht;
+    private Speisekarte speisekarte;
 
-    public GerichtResponse(URI location, Gericht gericht) {
+    public SpeisekarteResponse(URI location, Speisekarte speisekarte) {
         this.location = location;
-        this.gericht = gericht;
+        this.speisekarte = speisekarte;
     }
 
     public URI getLocation() {
@@ -22,11 +22,11 @@ public class GerichtResponse {
         this.location = location;
     }
 
-    public Gericht getGericht() {
-        return gericht;
+    public Speisekarte getSpeisekarte() {
+        return speisekarte;
     }
 
-    public void setGericht(Gericht gericht) {
-        this.gericht = gericht;
+    public void setSpeisekarte(Gericht gericht) {
+        this.speisekarte = speisekarte;
     }
 }

@@ -60,7 +60,7 @@ public class SpeisekarteService {
         speisekarteRepository.findByName(speisekarte).addGericht(gerichtRepository.findByName(gericht));
     }
 
-
-
-
+    public Speisekarte getByName(String name) {
+        return speisekarteRepository.findByName(name);
+    }
 }
