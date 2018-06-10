@@ -34,7 +34,7 @@ public class GerichtController {
     }
     // BC6
     @DeleteMapping("/gericht/{gericht}/{speisekarte}")
-    public String deleteSpeisekarteFromGericht(@PathVariable String gericht, @PathVariable Long speisekarte) {
+    public String deleteSpeisekarteFromGericht(@PathVariable String gericht, @PathVariable String speisekarte) {
         System.out.println("Delete -> /gericht/{gericht}/{speisekarte}");
         gerichtService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
         // ToDo: Better return value

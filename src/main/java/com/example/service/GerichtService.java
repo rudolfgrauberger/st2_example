@@ -35,8 +35,8 @@ public class GerichtService {
         return Lists.newArrayList(gerichtRepository.findAll());
     }
 
-    public void deleteGerichtFromSpeisekarte(String gericht, Long speisekarte) {
+    public void deleteGerichtFromSpeisekarte(String gericht, String speisekarte) {
         gerichtRepository.findByName(gericht).removeSpeisekarte
-                (speisekarteRepository.findOne(speisekarte));
+                (speisekarteRepository.findByName(speisekarte));
     }
 }

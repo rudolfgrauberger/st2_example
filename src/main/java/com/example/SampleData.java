@@ -38,10 +38,10 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
 
-       Speisekarte vegetarisch = SpeisekarteFactory.createSpeisekarte(
+       Speisekarte vegetarisch = SpeisekarteFactory.createSpeisekarte("vegetarisch",
                                     new GregorianCalendar(2011,Calendar.JANUARY,1).getTime(),
                                     new GregorianCalendar(9999,Calendar.DECEMBER,31).getTime());
-       Speisekarte normal = SpeisekarteFactory.createSpeisekarte(
+       Speisekarte normal = SpeisekarteFactory.createSpeisekarte("normal",
                                     new GregorianCalendar(2011,Calendar.JANUARY,1).getTime(),
                                     new GregorianCalendar(9999,Calendar.DECEMBER,31).getTime());
 

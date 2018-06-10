@@ -24,8 +24,8 @@ public class SpeisekarteService {
 
     }
 
-    public Speisekarte createAndSaveSpeisekarte(Date datumVon, Date datumBis) {
-        Speisekarte speisekarte = SpeisekarteFactory.createSpeisekarte(datumVon, datumBis);
+    public Speisekarte createAndSaveSpeisekarte(String name, Date datumVon, Date datumBis) {
+        Speisekarte speisekarte = SpeisekarteFactory.createSpeisekarte(name, datumVon, datumBis);
         speisekarteRepository.save(speisekarte);
         return speisekarte;
     }
@@ -38,12 +38,12 @@ public class SpeisekarteService {
         return Lists.newArrayList(speisekarteRepository.findAll());
     }
 
-    public void deleteGerichtFromSpeisekarte(String gericht, Long speisekarte) {
-        speisekarteRepository.findOne(speisekarte).removeGericht
+    public void deleteGerichtFromSpeisekarte(String gericht, String speisekarte) {
+        speisekarteRepository.findByName(speisekarte).removeGericht
                 (gerichtRepository.findByName(gericht));
     }
 
-    public void addGericht(Gericht gericht, long speisekarte) {
-        speisekarteRepository.findOne(speisekarte).addGericht(gericht);
+    public void addGericht(Gericht gericht, String speisekarte) {
+        speisekarteRepository.findByName(speisekarte).addGericht(gericht);
     }
 }

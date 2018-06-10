@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SpeisekarteRepository extends CrudRepository<Speisekarte, Long> {
+    Speisekarte findByName(String name);
 }

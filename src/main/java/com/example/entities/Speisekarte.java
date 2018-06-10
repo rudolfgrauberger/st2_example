@@ -13,6 +13,7 @@ public class Speisekarte {
    @GeneratedValue(strategy = GenerationType.AUTO)
    private long id;
 
+   private String name;
    private Date gueltig_von;
    private Date guiltig_bis;
 
@@ -58,14 +59,23 @@ public class Speisekarte {
 
    }
 
-   public Speisekarte(Date von, Date bis) {
+   public Speisekarte(String name, Date von, Date bis) {
       this.setGueltig_von(von);
       this.setGuiltig_bis(bis);
+      this.name = name;
    }
 
    @Override
    public String toString() {
-      return String.format("ID: %s | Von: %s | Bis: %s",
-            id, gueltig_von, guiltig_bis);
+      return String.format("Name: %s | ID: %s | Von: %s | Bis: %s",
+            name, id, gueltig_von, guiltig_bis);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
    }
 }

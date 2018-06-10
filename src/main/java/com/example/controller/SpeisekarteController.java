@@ -30,17 +30,17 @@ public class SpeisekarteController {
     @PostMapping("/speisekarte")
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Speisekarte postSpeisekarte(@RequestBody DateInput datumVon) {
-        System.out.println("POST -> /speisekarte | Name: "+datumVon +" datumBis: "+new Date());
-        Speisekarte Speisekarte = speisekarteService.createAndSaveSpeisekarte(datumVon.getDatum(), new Date());
-        // ToDo: implement request body with datumBis
+    public Speisekarte postSpeisekarte(@RequestBody String name) {
+        System.out.println("POST -> /speisekarte | Name: "+name +" datumBis: "+new Date());
+        Speisekarte Speisekarte = speisekarteService.createAndSaveSpeisekarte(name, new Date(), new Date());
+        // ToDo: implement request body with datumVon und datumBis
         // ToDo: name has to be added to speisekarte
         return Speisekarte;
     }
 
     // BC3?
     @PostMapping("/speisekarte/{speisekarte}")
-    public String postSpeisekarteWithObject(@RequestBody Gericht gericht, @PathVariable long speisekarte) {
+    public String postSpeisekarteWithObject(@RequestBody Gericht gericht, @PathVariable String speisekarte) {
         System.out.println("Post -> /speisekarte/{speisekarte} | Added: " + gericht);
         speisekarteService.addGericht(gericht, speisekarte);
         // ToDo: Better return path
@@ -51,7 +51,7 @@ public class SpeisekarteController {
     // BC6
     @DeleteMapping("/speisekarte/{speisekarte}/{gericht}")
     @ResponseStatus(value = HttpStatus.OK)
-    public String deleteGerichtFromSpeisekarte(@PathVariable String gericht, @PathVariable Long speisekarte) {
+    public String deleteGerichtFromSpeisekarte(@PathVariable String gericht, @PathVariable String speisekarte) {
         System.out.println("Delete -> /gericht/{gericht}/{speisekarte}");
         speisekarteService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
         // ToDo: Better return value

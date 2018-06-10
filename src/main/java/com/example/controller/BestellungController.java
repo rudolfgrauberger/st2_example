@@ -20,11 +20,6 @@ public class BestellungController {
     @Autowired
     BestellungService bestellungService;
 
-    /*
-        Post {datum =  ...}
-        Nur bei PUT {datum =  ...}
-    */
-
     // A1
     @PostMapping("/bestellung")
     @ResponseBody
