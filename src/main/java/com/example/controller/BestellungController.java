@@ -40,7 +40,7 @@ public class BestellungController {
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(bestellung.getId()).toUri();
+                .buildAndExpand(bestellung.getOrdernummer()).toUri();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
@@ -65,7 +65,7 @@ public class BestellungController {
         {
             location = ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(bestellung.getId()).toUri();
+                    .buildAndExpand(bestellung.getOrdernummer()).toUri();
 
             bestellungResponse = new BestellungResponse(location, bestellung);
             response.add(bestellungResponse);
@@ -88,7 +88,7 @@ public class BestellungController {
             System.out.println("Get -> /bestellungen/" + bestellung.getOrdernummer());
 
             URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/bestellungen/{id}")
-                    .buildAndExpand(bestellung.getId()).toUri();
+                    .buildAndExpand(bestellung.getOrdernummer()).toUri();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(location);
@@ -118,7 +118,7 @@ public class BestellungController {
 
         Bestellung bestellung = bestellungService.findBestellungByOrdernummer(ordernummer);
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/bestellungen/{id}")
-                .buildAndExpand(bestellung.getId()).toUri();
+                .buildAndExpand(bestellung.getOrdernummer()).toUri();
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
 
@@ -143,7 +143,7 @@ public class BestellungController {
         {
             location = ServletUriComponentsBuilder
                     .fromCurrentContextPath().path("/bestellungen/{id}")
-                    .buildAndExpand(bestellung.getId()).toUri();
+                    .buildAndExpand(bestellung.getOrdernummer()).toUri();
 
             bestellungResponse = new BestellungResponse(location, bestellung);
             response.add(bestellungResponse);

@@ -26,6 +26,10 @@ public class Gericht {
    @OneToMany(mappedBy = "gericht")
    private Set<BestellPosition> bestellPosition = new HashSet<BestellPosition>();
 
+   public long getId() {
+      return id;
+   }
+
    public String getName() {
       return name;
    }
