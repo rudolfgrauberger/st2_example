@@ -34,6 +34,10 @@ public class Bestellung {
       this.bestellstatus = bestellstatus;
    }
 
+   public long getId() {
+      return id;
+   }
+
    public String getOrdernummer() {
       return ordernummer;
    }

@@ -45,11 +45,11 @@ public class SzenarioBCTests {
 
     @Test
     public void testGetGericht() throws Exception {
-        mockMvc.perform(post("/gerichte")).andExpect(status().is(200)).andReturn();
+        mockMvc.perform(get("/gerichte")).andExpect(status().is(200)).andReturn();
     }
 
     @Test
     public void testGetSpeisekarte() throws Exception {
-        mockMvc.perform(get("/speisekarte")).andExpect(status().is(200)).andReturn();
+        mockMvc.perform(get("/speisekarten")).andExpect(status().is(200)).andReturn();
     }
 }
