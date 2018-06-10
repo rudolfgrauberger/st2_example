@@ -16,10 +16,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @Component
 public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
@@ -71,14 +70,16 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
        // gerichtRepository.save(GerichtFactory.createGericht("Blabla", 1.99, normal));
        //speisekarteRepository.save(normal);
 
+        LocalDate datum1 = LocalDate.now().minusYears(2);
         Bestellung bestellung1 = new Bestellung();
         bestellung1.setOrdernummer("O1010");
+        bestellung1.setDatum(Date.from(datum1.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         Bestellung bestellung2 = new Bestellung();
-        bestellung1.setOrdernummer("Test2");
+        bestellung2.setOrdernummer("Test2");
 
         Bestellung bestellung3 = new Bestellung();
-        bestellung1.setOrdernummer("Test3");
+        bestellung3.setOrdernummer("Test3");
 
         BestellPosition position1 = BestellungFactory.createBestellPosition(bestellung1, gekochtesGemuese, 1);
         BestellPosition position2 = BestellungFactory.createBestellPosition(bestellung1, steakNuessen, 2);

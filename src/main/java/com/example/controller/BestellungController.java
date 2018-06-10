@@ -5,6 +5,7 @@ import com.example.entities.Bestellung;
 import com.example.factories.BestellungFactory;
 import com.example.service.BestellungService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -73,11 +74,16 @@ public class BestellungController {
         return "/"+ordernummer;
     }
 
-    // A2, A4 // ToDo: wird nicht aufgerufen, statt dessen /bestellung
-    @RequestMapping(value="/bestellung?operation= greaterthan&datum={datum}", method = RequestMethod.GET)
-    public List<Bestellung> getBestellungOrdernummerGreaterThanDate(@PathVariable Date datum) {
-        System.out.println("Get -> /bestellung?operation= greaterthan&datum={datum}");
-        List<Bestellung> bestellungList = bestellungService.greaterThanDatum(datum);
+    // A2, A4
+    @GetMapping(value = "/bestellung", params = { "operation", "datum" })
+    @ResponseBody
+    public List<Bestellung> getBestellungOrdernummerGreaterThanDate(@RequestParam("operation") String operation, @RequestParam("datum") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+        System.out.println("Get -> /bestellung?operation=greatherthan&datum={datum}");
+
+        System.out.println("Operation: " + operation);
+        System.out.println("Datum: " + date);
+
+        List<Bestellung> bestellungList = bestellungService.greaterThanDatum(date);
         return bestellungList;
     }
 }
