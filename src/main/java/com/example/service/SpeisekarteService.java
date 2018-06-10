@@ -39,18 +39,22 @@ public class SpeisekarteService {
         return Lists.newArrayList(speisekarteRepository.findAll());
     }
 
+    // Hinweiß: findAllByName.get(0) weil wir manchmal mehrere Speisekarten mit dem selben Namen haben
+    // ist nur als Übergangslösung so implementiert.
     public void deleteGerichtFromSpeisekarte(String gericht, String speisekarte) {
-        speisekarteRepository.findByName(speisekarte).removeGericht
-                (gerichtRepository.findByName(gericht), false);
+        speisekarteRepository.findAllByName(speisekarte).get(0).removeGericht
+                (gerichtRepository.findAllByName(gericht).get(0), false);
     }
 
     public void addGericht(GerichtRequest gericht, String speisekarte) {
         Gericht nGericht = gerichtRepository.findByName(gericht.getName());
 
+        // Hinweiß: findAllByName.get(0) weil wir manchmal mehrere Speisekarten mit dem selben Namen haben
+        // ist nur als Übergangslösung so implementiert.
         if(nGericht == null)
-            speisekarteRepository.findByName(speisekarte).addGericht(gericht.asGerichtEntity());
+            speisekarteRepository.findAllByName(speisekarte).get(0).addGericht(gericht.asGerichtEntity());
         else
-            speisekarteRepository.findByName(speisekarte).addGericht(nGericht);
+            speisekarteRepository.findAllByName(speisekarte).get(0).addGericht(nGericht);
     }
 
     public void addGericht(String gericht, String speisekarte) {
