@@ -30,7 +30,7 @@ public class GerichtRequest {
         this.preis = preis;
     }
 
-    public Gericht asGerichtEntity() {
+    public Gericht asEntity() {
         Gericht gericht = new Gericht(name, preis, new Zubereitungsanleitung("Test"));
         return gericht;
     }

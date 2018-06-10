@@ -23,7 +23,7 @@ public class SpeisekarteController {
 
     // BC2, BC5
     // OK
-    @GetMapping("/speisekarte")
+    @GetMapping("/speisekarten")
     public @ResponseBody  List<Speisekarte> speisekarte() {
         System.out.println("Get -> /gericht");
         List<Speisekarte> speisekarten = speisekarteService.getAll();
@@ -31,11 +31,11 @@ public class SpeisekarteController {
     }
 
     // OK
-    @PostMapping("/speisekarte")
+    @PostMapping("/speisekarten")
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
     public Speisekarte postSpeisekarte(@RequestBody SpeisekarteRequest sRequest) {
-        System.out.println(String.format("POST -> /speisekarte | Name: %s DatumVon: %s DatumBis %s",
+        System.out.println(String.format("POST -> /speisekarten | Name: %s DatumVon: %s DatumBis %s",
                                                 sRequest.getName(),sRequest.getDatumVon(),sRequest.getDatumBis()));
         Speisekarte Speisekarte = speisekarteService.createAndSaveSpeisekarte(sRequest.getName(),
                                                                                 sRequest.getDatumVon().getDatum(),
@@ -45,22 +45,22 @@ public class SpeisekarteController {
 
     // BC3?
     // OK
-    @PostMapping("/speisekarte/{speisekarte}")
+    @PostMapping("/speisekarten/{speisekarte}")
     public @ResponseBody String postSpeisekarteWithObject(@RequestBody GerichtRequest gericht, @PathVariable String speisekarte) {
-        System.out.println("Post -> /speisekarte/{speisekarte} | Added: " + gericht.getName());
+        System.out.println("Post -> /speisekarten/{speisekarte} | Added: " + gericht.getName());
         speisekarteService.addGericht(gericht, speisekarte);
-        return "/speisekarte";
+        return "/speisekarten";
     }
 
     // BC6
     // OK
-    @DeleteMapping("/speisekarte/{speisekarte}/{gericht}")
+    @DeleteMapping("/speisekarten/{speisekarte}/{gericht}")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody String deleteGerichtFromSpeisekarte(@PathVariable String gericht, @PathVariable String speisekarte) {
-        System.out.println("Delete -> /gericht/{gericht}/{speisekarte}");
+        System.out.println("Delete -> /gerichte/{gericht}/{speisekarte}");
         speisekarteService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
         // ToDo: Better return value
-        return "/speisekarte";
+        return "/speisekarten";
     }
 
 

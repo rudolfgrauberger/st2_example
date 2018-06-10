@@ -23,62 +23,62 @@ public class BestellungController {
 
     // A1
     // OK
-    @PostMapping("/bestellung")
+    @PostMapping("/bestellungen")
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
         public Bestellung bestellung(@RequestBody DateInput datum) {
-        System.out.println("Post -> /bestellung | Datum: "+datum.getDatum());
+        System.out.println("Post -> /bestellungen | Datum: "+datum.getDatum());
         Bestellung bestellung = new Bestellung(datum.getDatum());
         bestellungService.saveBestellung(bestellung);
         return bestellung;
     }
     // OK
-    @GetMapping("/bestellung")
+    @GetMapping("/bestellungen")
     @ResponseBody
     public List<Bestellung> getBestellungen() {
-        System.out.println("Get -> /bestellung");
+        System.out.println("Get -> /bestellungen");
         return bestellungService.getAll();
     }
 
     // A3, A5, A6
     // OK
-    @GetMapping("/bestellung/{ordernummer}")
+    @GetMapping("/bestellungen/{ordernummer}")
     @ResponseBody
     public Bestellung getBestellungOrdernummer(@PathVariable String ordernummer) {
         Bestellung bestellung = bestellungService.findBestellungByOrdernummer(ordernummer);
 
         if(bestellung == null) {
-            System.out.println("Get -> /bestellung | not found");
+            System.out.println("Get -> /bestellungen | not found");
         } else {
-            System.out.println("Get -> /bestellung/" + bestellung.getOrdernummer());
+            System.out.println("Get -> /bestellungen/" + bestellung.getOrdernummer());
         }
 
         return bestellung;
     }
 
 
-    @DeleteMapping("/bestellung/{ordernummer}")
+    @DeleteMapping("/bestellungen/{ordernummer}")
     // OK
     public @ResponseBody String deleteBestellungOrdernummer(@PathVariable String ordernummer) {
         boolean deleted = bestellungService.deleteBestellung(ordernummer);
-        System.out.println("Delete -> /bestellung/"+ordernummer +" | Deleted: "+ deleted);
-        return "/bestellung";
+        System.out.println("Delete -> /bestellungen/"+ordernummer +" | Deleted: "+ deleted);
+        return "/bestellungen";
     }
 
     // OK
-    @PutMapping("/bestellung/{ordernummer}")
+    @PutMapping("/bestellungen/{ordernummer}")
     public String putBestellungOrdernummer(@PathVariable String ordernummer, @RequestBody DateInput datum) {
         boolean changed = bestellungService.changeDate(ordernummer, datum);
-        System.out.println("Put -> /bestellung/{ordernummer} | Changed: " +changed);
+        System.out.println("Put -> /bestellungen/{ordernummer} | Changed: " +changed);
         // ToDo: Right Response
         return "/"+ordernummer;
     }
 
     // A2, A4
-    @GetMapping(value = "/bestellung", params = { "operation", "datum" })
+    @GetMapping(value = "/bestellungen", params = { "operation", "datum" })
     @ResponseBody
     public List<Bestellung> getBestellungOrdernummerGreaterThanDate(@RequestParam("operation") String operation, @RequestParam("datum") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
-        System.out.println("Get -> /bestellung?operation=greatherthan&datum={datum}");
+        System.out.println("Get -> /bestellungen?operation=greatherthan&datum={datum}");
 
         System.out.println("Operation: " + operation);
         System.out.println("Datum: " + date);

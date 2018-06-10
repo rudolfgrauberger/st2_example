@@ -1,6 +1,7 @@
 package com.example.RequestBodys;
 
 import com.example.JsonFormat.DateInput;
+import com.example.entities.Speisekarte;
 
 import java.util.Date;
 
@@ -35,5 +36,10 @@ public class SpeisekarteRequest {
 
     public void setDatumBis(DateInput datumBis) {
         this.datumBis = datumBis;
+    }
+
+    public Speisekarte asEntity() {
+        Speisekarte speisekarte = new Speisekarte(name, datumVon.getDatum(), datumBis.getDatum());
+        return speisekarte;
     }
 }

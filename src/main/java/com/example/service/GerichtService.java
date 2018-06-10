@@ -1,6 +1,9 @@
 package com.example.service;
 
+import com.example.RequestBodys.GerichtRequest;
+import com.example.RequestBodys.SpeisekarteRequest;
 import com.example.entities.Gericht;
+import com.example.entities.Speisekarte;
 import com.example.factories.GerichtFactory;
 import com.example.repositories.GerichtRepository;
 import com.example.repositories.SpeisekarteRepository;
@@ -40,6 +43,17 @@ public class GerichtService {
         nGericht.removeSpeisekarte
                 (speisekarteRepository.findByName(speisekarte),false);
         gerichtRepository.save(nGericht);
+    }
+
+    public void addSpeisekarte(SpeisekarteRequest speisekarte, String gericht) {
+        Speisekarte nSpeisekarte = speisekarteRepository.findByName(speisekarte.getName());
+
+        // Hinweiß: findAllByName.get(0) weil wir manchmal mehrere Speisekarten mit dem selben Namen haben
+        // ist nur als Übergangslösung so implementiert.
+        if(nSpeisekarte == null)
+            gerichtRepository.findAllByName(gericht).get(0).addSpeisekarte(speisekarte.asEntity());
+        else
+            gerichtRepository.findAllByName(gericht).get(0).addSpeisekarte(nSpeisekarte);
     }
 
     public Gericht getByName(String name) {
