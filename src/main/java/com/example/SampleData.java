@@ -71,16 +71,24 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
        // gerichtRepository.save(GerichtFactory.createGericht("Blabla", 1.99, normal));
        //speisekarteRepository.save(normal);
 
-       Bestellung bestellung1 = new Bestellung();
-       bestellung1.setOrdernummer("O1010");
+        Bestellung bestellung1 = new Bestellung();
+        bestellung1.setOrdernummer("O1010");
 
-       BestellPosition position1 = BestellungFactory.createBestellPosition(bestellung1, gekochtesGemuese, 1);
-       BestellPosition position2 = BestellungFactory.createBestellPosition(bestellung1, steakNuessen, 2);
+        Bestellung bestellung2 = new Bestellung();
+        bestellung1.setOrdernummer("Test2");
 
-       bestellungRepository.save(bestellung1);
+        Bestellung bestellung3 = new Bestellung();
+        bestellung1.setOrdernummer("Test3");
 
-       bestellPositionRepository.save(position1);
-       bestellPositionRepository.save(position2);
+        BestellPosition position1 = BestellungFactory.createBestellPosition(bestellung1, gekochtesGemuese, 1);
+        BestellPosition position2 = BestellungFactory.createBestellPosition(bestellung1, steakNuessen, 2);
+
+        bestellungRepository.save(bestellung1);
+        bestellungRepository.save(bestellung2);
+        bestellungRepository.save(bestellung3);
+
+        bestellPositionRepository.save(position1);
+        bestellPositionRepository.save(position2);
 
        // find-Methode
        testFinds();

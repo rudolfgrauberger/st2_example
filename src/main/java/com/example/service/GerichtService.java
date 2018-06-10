@@ -36,7 +36,9 @@ public class GerichtService {
     }
 
     public void deleteGerichtFromSpeisekarte(String gericht, String speisekarte) {
-        gerichtRepository.findByName(gericht).removeSpeisekarte
-                (speisekarteRepository.findByName(speisekarte));
+        Gericht nGericht = gerichtRepository.findByName(gericht);
+        nGericht.removeSpeisekarte
+                (speisekarteRepository.findByName(speisekarte),false);
+        gerichtRepository.save(nGericht);
     }
 }

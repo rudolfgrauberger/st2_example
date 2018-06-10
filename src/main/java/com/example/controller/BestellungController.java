@@ -21,6 +21,7 @@ public class BestellungController {
     BestellungService bestellungService;
 
     // A1
+    // OK
     @PostMapping("/bestellung")
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -30,31 +31,49 @@ public class BestellungController {
         bestellungService.saveBestellung(bestellung);
         return bestellung;
     }
+    // OK
+    @GetMapping("/bestellung")
+    @ResponseBody
+    public List<Bestellung> getBestellungen() {
+        System.out.println("Get -> /bestellung");
+        return bestellungService.getAll();
+    }
 
     // A3, A5, A6
+    // OK
     @GetMapping("/bestellung/{ordernummer}")
     @ResponseBody
     public Bestellung getBestellungOrdernummer(@PathVariable String ordernummer) {
         Bestellung bestellung = bestellungService.findBestellungByOrdernummer(ordernummer);
-        System.out.println("Get -> /bestellung/"+bestellung.getOrdernummer());
+
+        if(bestellung == null) {
+            System.out.println("Get -> /bestellung | not found");
+        } else {
+            System.out.println("Get -> /bestellung/" + bestellung.getOrdernummer());
+        }
+
         return bestellung;
     }
+
+
     @DeleteMapping("/bestellung/{ordernummer}")
-    public String deleteBestellungOrdernummer(@PathVariable String ordernummer) {
-        System.out.println("Delete -> /bestellung/"+ordernummer);
-        bestellungService.deleteBestellung(ordernummer);
-        // ToDo: Referenzen mit löschen und return passend zum Ergebnis (gelöscht ja/nein)
+    // OK
+    public @ResponseBody String deleteBestellungOrdernummer(@PathVariable String ordernummer) {
+        boolean deleted = bestellungService.deleteBestellung(ordernummer);
+        System.out.println("Delete -> /bestellung/"+ordernummer +" | Deleted: "+ deleted);
         return "/bestellung";
     }
+
+    // OK
     @PutMapping("/bestellung/{ordernummer}")
     public String putBestellungOrdernummer(@PathVariable String ordernummer, @RequestBody DateInput datum) {
-        System.out.println("Put -> /bestellung/{ordernummer}");
-        bestellungService.changeDate(ordernummer, datum);
+        boolean changed = bestellungService.changeDate(ordernummer, datum);
+        System.out.println("Put -> /bestellung/{ordernummer} | Changed: " +changed);
         // ToDo: Right Response
         return "/"+ordernummer;
     }
 
-    // A2, A4 // ToDo: Implement
+    // A2, A4 // ToDo: wird nicht aufgerufen, statt dessen /bestellung
     @RequestMapping(value="/bestellung?operation= greaterthan&datum={datum}", method = RequestMethod.GET)
     public List<Bestellung> getBestellungOrdernummerGreaterThanDate(@PathVariable Date datum) {
         System.out.println("Get -> /bestellung?operation= greaterthan&datum={datum}");

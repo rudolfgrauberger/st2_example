@@ -50,9 +50,12 @@ public class Speisekarte {
       }
    }
 
-   public void removeGericht(Gericht gericht) {
+   public void removeGericht(Gericht gericht, boolean infinityBlocker) {
       gerichte.remove(gericht);
-      gericht.removeSpeisekarte(this);
+
+      if(infinityBlocker) return;
+
+      gericht.removeSpeisekarte(this, true);
    }
 
    protected Speisekarte() {

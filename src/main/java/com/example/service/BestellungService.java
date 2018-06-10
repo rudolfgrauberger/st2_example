@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.JsonFormat.DateInput;
 import com.example.entities.Bestellung;
 import com.example.repositories.BestellungRepository;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,10 @@ public class BestellungService {
 
     }
 
+    public List<Bestellung> getAll() {
+        return Lists.newArrayList(bestellungRepository.findAll());
+    }
+
     public Bestellung findBestellungByOrdernummer(String ordernummer) {
         return bestellungRepository.findByOrdernummer(ordernummer);
     }
@@ -26,15 +31,27 @@ public class BestellungService {
         bestellungRepository.save(bestellung);
     }
 
-    public void deleteBestellung(String ordernummer) {
+    public boolean deleteBestellung(String ordernummer) {
         Bestellung bestellung = bestellungRepository.findByOrdernummer(ordernummer);
-        bestellungRepository.delete(bestellung);
+
+        if(bestellung != null) {
+            bestellungRepository.delete(bestellung);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void changeDate(String ordernummer, DateInput datum) {
+    public boolean changeDate(String ordernummer, DateInput datum) {
         Bestellung bestellung = bestellungRepository.findByOrdernummer(ordernummer);
-        bestellung.setDatum(datum.getDatum());
-        bestellungRepository.save(bestellung);
+
+        if(bestellung != null) {
+            bestellung.setDatum(datum.getDatum());
+            bestellungRepository.save(bestellung);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<Bestellung> greaterThanDatum(Date datum) {

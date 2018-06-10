@@ -40,7 +40,7 @@ public class SpeisekarteService {
 
     public void deleteGerichtFromSpeisekarte(String gericht, String speisekarte) {
         speisekarteRepository.findByName(speisekarte).removeGericht
-                (gerichtRepository.findByName(gericht));
+                (gerichtRepository.findByName(gericht), false);
     }
 
     public void addGericht(Gericht gericht, String speisekarte) {

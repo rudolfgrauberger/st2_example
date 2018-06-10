@@ -16,6 +16,7 @@ public class Bestellung {
    @GeneratedValue(strategy = GenerationType.AUTO)
    private long id;
 
+   // ToDo: fix nur die Ordernummer des letzten hinzugefügten steht in der DB, bei den anderen null
    private String ordernummer;
    private Date datum;
 

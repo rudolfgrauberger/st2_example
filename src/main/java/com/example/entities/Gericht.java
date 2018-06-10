@@ -23,7 +23,7 @@ public class Gericht {
    private Set<Speisekarte> speisekarten = new HashSet<Speisekarte>();
 
    @OneToMany(mappedBy = "gericht")
-   private Set<BestellPosition> bestellungGericht = new HashSet<BestellPosition>();
+   private Set<BestellPosition> bestellPosition = new HashSet<BestellPosition>();
 
    public String getName() {
       return name;
@@ -42,8 +42,8 @@ public class Gericht {
    }
 
    @JsonManagedReference // um Endlosschleife zu verhindern
-   public Set<BestellPosition> getBestellungGericht() {
-      return Collections.unmodifiableSet(bestellungGericht);
+   public Set<BestellPosition> getBestellPosition() {
+      return Collections.unmodifiableSet(bestellPosition);
    }
 
    public Set<Speisekarte> getSpeisekarte() {
@@ -60,14 +60,16 @@ public class Gericht {
       }
    }
 
-   public void removeSpeisekarte(Speisekarte karte) {
+   public void removeSpeisekarte(Speisekarte karte, boolean infinityBlocker) {
       speisekarten.remove(karte);
       // aktualisiert auch die andere Seite der Beziehung
-      karte.removeGericht(this);
+      if(infinityBlocker) return;
+
+      karte.removeGericht(this, true);
    }
 
    public void addInPosition(BestellPosition position) {
-      bestellungGericht.add(position);
+      bestellPosition.add(position);
    }
 
    protected Gericht() {
