@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 
-@Controller
+@Controller("bestellungController")
 public class BestellungController {
     private BestellungFactory bestellungFactory = new BestellungFactory();
 

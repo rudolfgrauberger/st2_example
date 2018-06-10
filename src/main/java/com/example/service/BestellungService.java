@@ -15,10 +15,6 @@ public class BestellungService {
     @Autowired
     BestellungRepository bestellungRepository;
 
-    public BestellungService() {
-
-    }
-
     public List<Bestellung> getAll() {
         return Lists.newArrayList(bestellungRepository.findAll());
     }
