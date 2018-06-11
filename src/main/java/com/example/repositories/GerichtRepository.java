@@ -10,6 +10,7 @@ import java.util.List;
 public interface GerichtRepository extends CrudRepository<Gericht, Long> {
     // Aufgabe 2: finder-Methoden
     Gericht findByName(String name);
+    Gericht findById(long id);
     List<Gericht> findAllByName(String name);
     List<Gericht> findByPreisGreaterThan(double preis);
     List<Gericht> findByPreisLessThan(double preis);

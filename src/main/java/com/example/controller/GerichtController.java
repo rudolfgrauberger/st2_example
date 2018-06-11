@@ -8,6 +8,7 @@ import com.example.service.GerichtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,9 +51,9 @@ public class GerichtController {
     }
     // OK
     @PostMapping("/gerichte")
-    @ResponseBody // Objekt + URI
+    @ResponseBody // 201 created + URI im Header Location + Objekt mit geänderten/Neuen Werten
     @ResponseStatus(value = HttpStatus.CREATED)
-    public GerichtResponse postGericht(@RequestBody GerichtRequest gerichtRequest) {
+    public ResponseEntity<Gericht> postGericht(@RequestBody GerichtRequest gerichtRequest) {
         System.out.println("POST -> /gerichte | Name: "+gerichtRequest.getName() +" Preis: "+gerichtRequest.getPreis());
         Gericht gericht = gerichtService.createAndSaveGericht(gerichtRequest.getName(), gerichtRequest.getPreis());
 
@@ -60,13 +61,16 @@ public class GerichtController {
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(gericht.getId()).toUri();
 
-        GerichtResponse gerichtResponse = new GerichtResponse(location, gericht);
-        return new GerichtResponse(location, gericht);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(location);
+
+        ResponseEntity<Gericht> response = new ResponseEntity<Gericht>(gericht, headers, HttpStatus.CREATED);
+        return response;
     }
 
     // BC3
     @PostMapping("/gerichte/{gericht}")
-    public @ResponseBody GerichtResponse postGerichtWithObject(@RequestBody SpeisekarteRequest sR, @PathVariable String gericht) {
+    public @ResponseBody GerichtResponse postGerichtWithObject(@RequestBody SpeisekarteRequest sR, @PathVariable int gericht) {
         System.out.println("Post -> /speisekarten/{speisekarte} | Added: " + sR.getName());
         gerichtService.addSpeisekarte(sR, gericht);
 
@@ -74,19 +78,18 @@ public class GerichtController {
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(gericht).toUri();
 
-        return new GerichtResponse(location, gerichtService.getByName(gericht));
+        return new GerichtResponse(location, gerichtService.getById(gericht));
     }
     // BC6
     @DeleteMapping("/gerichte/{gericht}/{speisekarte}")
     @ResponseBody
-    public GerichtResponse deleteSpeisekarteFromGericht(@PathVariable String gericht, @PathVariable String speisekarte) {
+    public GerichtResponse deleteSpeisekarteFromGericht(@PathVariable int gericht, @PathVariable String speisekarte) {
         System.out.println("Delete -> /gerichte/{gericht}/{speisekarte}");
         gerichtService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/gerichte/{id}")
-                .buildAndExpand(gericht).toUri();
+                .fromCurrentRequest().build().toUri();
 
-        return new GerichtResponse(location, gerichtService.getByName(gericht));
+        return new GerichtResponse(location, gerichtService.getById(gericht));
     }
 }

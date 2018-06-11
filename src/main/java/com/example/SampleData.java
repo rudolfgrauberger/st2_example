@@ -37,7 +37,7 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
 
-       Speisekarte vegetarisch = SpeisekarteFactory.createSpeisekarte("vegetarisch",
+       /*Speisekarte vegetarisch = SpeisekarteFactory.createSpeisekarte("vegetarisch",
                                     new GregorianCalendar(2011,Calendar.JANUARY,1).getTime(),
                                     new GregorianCalendar(9999,Calendar.DECEMBER,31).getTime());
        Speisekarte normal = SpeisekarteFactory.createSpeisekarte("normal",
@@ -89,12 +89,12 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
         bestellungRepository.save(bestellung3);
 
         bestellPositionRepository.save(position1);
-        bestellPositionRepository.save(position2);
+        bestellPositionRepository.save(position2);*/
 
        // find-Methode
-       testFinds();
+       //testFinds();
 
-       printAll();
+       //printAll();
     }
 
    private void printAll() {

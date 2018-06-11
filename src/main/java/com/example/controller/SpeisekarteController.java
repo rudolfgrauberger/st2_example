@@ -11,6 +11,7 @@ import com.example.service.SpeisekarteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ import java.util.List;
 public class SpeisekarteController {
     @Autowired
     SpeisekarteService speisekarteService;
+
+    @Autowired
+    GerichtService gerichtService;
 
     // BC2, BC5
     // OK
@@ -54,9 +58,9 @@ public class SpeisekarteController {
 
     // OK
     @PostMapping("/speisekarten")
-    @ResponseBody // Objekt + location
+    @ResponseBody // 201 created + URI im Header Location + Objekt mit geänderten/Neuen Werten
     @ResponseStatus(value = HttpStatus.CREATED)
-    public SpeisekarteResponse postSpeisekarte(@RequestBody SpeisekarteRequest sRequest) {
+    public ResponseEntity<Speisekarte> postSpeisekarte(@RequestBody SpeisekarteRequest sRequest) {
         System.out.println(String.format("POST -> /speisekarten | Name: %s DatumVon: %s DatumBis %s",
                                                 sRequest.getName(),sRequest.getDatumVon(),sRequest.getDatumBis()));
         Speisekarte speisekarte = speisekarteService.createAndSaveSpeisekarte(sRequest.getName(),
@@ -67,23 +71,32 @@ public class SpeisekarteController {
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(speisekarte.getName()).toUri();
 
-        SpeisekarteResponse speisekarteResponse = new SpeisekarteResponse(location, speisekarte);
-        return new SpeisekarteResponse(location, speisekarte);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(location);
+
+        ResponseEntity<Speisekarte> response = new ResponseEntity<Speisekarte>(speisekarte, headers, HttpStatus.CREATED);
+        return response;
     }
 
-    // BC3?
+    // BC3
     // OK
     @PostMapping("/speisekarten/{speisekarte}")
     @ResponseBody // Objekt + URI + Unterobjekte
-    public SpeisekarteResponse postSpeisekarteAddGericht(@RequestBody GerichtRequest gericht, @PathVariable String speisekarte) {
+    public ResponseEntity<Speisekarte> postSpeisekarteAddGericht(@RequestBody GerichtRequest gericht, @PathVariable String speisekarte) {
         System.out.println("Post -> /speisekarten/{speisekarte} | Added: " + gericht.getName());
         speisekarteService.addGericht(gericht, speisekarte);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/speisekarte/{id}")
-                .buildAndExpand(speisekarte).toUri();
+        Gericht g = gerichtService.getByName(gericht.getName());
 
-        return new SpeisekarteResponse(location, speisekarteService.getByName(speisekarte));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{gericht}")
+                .buildAndExpand(g.getId()).toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(location);
+
+        ResponseEntity<Speisekarte> response = new ResponseEntity<Speisekarte>(speisekarteService.getByName(speisekarte), headers, HttpStatus.CREATED);
+        return response;
     }
 
     // BC6
@@ -91,13 +104,12 @@ public class SpeisekarteController {
     @DeleteMapping("/speisekarten/{speisekarte}/{gericht}")
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody // location + Objekt
-    public SpeisekarteResponse deleteGerichtFromSpeisekarte(@PathVariable String gericht, @PathVariable String speisekarte) {
+    public SpeisekarteResponse deleteGerichtFromSpeisekarte(@PathVariable int gericht, @PathVariable String speisekarte) {
         System.out.println("Delete -> /speisekarte/{speisekarte}/{gericht}");
         speisekarteService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/speisekarte/{id}")
-                .buildAndExpand(speisekarte).toUri();
+                .fromCurrentRequest().build().toUri();
 
         return new SpeisekarteResponse(location, speisekarteService.getByName(speisekarte));
     }

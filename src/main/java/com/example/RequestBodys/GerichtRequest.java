@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class GerichtRequest {
 
     private String name;
-    private int preis;
+    private double preis;
 
     public GerichtRequest() {
     }
@@ -22,11 +22,11 @@ public class GerichtRequest {
         this.name = name;
     }
 
-    public int getPreis() {
+    public double getPreis() {
         return preis;
     }
 
-    public void setPreis(int preis) {
+    public void setPreis(double preis) {
         this.preis = preis;
     }
 

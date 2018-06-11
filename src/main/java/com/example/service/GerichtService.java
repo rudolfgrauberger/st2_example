@@ -24,7 +24,7 @@ public class GerichtService {
 
     }
 
-    public Gericht createAndSaveGericht(String name, int preis) {
+    public Gericht createAndSaveGericht(String name, double preis) {
         Gericht gericht = GerichtFactory.createGericht(name, preis);
         gerichtRepository.save(gericht);
         return gericht;
@@ -38,25 +38,31 @@ public class GerichtService {
         return Lists.newArrayList(gerichtRepository.findAll());
     }
 
-    public void deleteGerichtFromSpeisekarte(String gericht, String speisekarte) {
-        Gericht nGericht = gerichtRepository.findByName(gericht);
+    public void deleteGerichtFromSpeisekarte(int gerichtId, String speisekarte) {
+        Gericht nGericht = gerichtRepository.findById(gerichtId);
         nGericht.removeSpeisekarte
                 (speisekarteRepository.findByName(speisekarte),false);
         gerichtRepository.save(nGericht);
     }
 
-    public void addSpeisekarte(SpeisekarteRequest speisekarte, String gericht) {
+    public void addSpeisekarte(SpeisekarteRequest speisekarte, int gerichtId) {
         Speisekarte nSpeisekarte = speisekarteRepository.findByName(speisekarte.getName());
 
-        // Hinweiß: findAllByName.get(0) weil wir manchmal mehrere Speisekarten mit dem selben Namen haben
-        // ist nur als Übergangslösung so implementiert.
+        Gericht lGerich = gerichtRepository.findById(gerichtId);
+
         if(nSpeisekarte == null)
-            gerichtRepository.findAllByName(gericht).get(0).addSpeisekarte(speisekarte.asEntity());
+            lGerich.addSpeisekarte(speisekarte.asEntity());
         else
-            gerichtRepository.findAllByName(gericht).get(0).addSpeisekarte(nSpeisekarte);
+            lGerich.addSpeisekarte(nSpeisekarte);
+
+        gerichtRepository.save(lGerich);
     }
 
     public Gericht getByName(String name) {
         return gerichtRepository.findByName(name);
+    }
+
+    public Gericht getById(int id) {
+        return gerichtRepository.findById(id);
     }
 }
