@@ -98,12 +98,11 @@ public class BestellungController {
     }
 
     @DeleteMapping("/bestellungen/{ordernummer}")
-    @ResponseBody
-    public ResponseEntity<Bestellung> deleteBestellungOrdernummer(@PathVariable String ordernummer) {
-        boolean deleted = bestellungService.deleteBestellung(ordernummer);
-        System.out.println("Delete -> /bestellungen/"+ordernummer +" | Deleted: "+ deleted);
-        if(!deleted) return new ResponseEntity<Bestellung>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<Bestellung>(HttpStatus.OK);
+    public ResponseEntity<?> deleteBestellungOrdernummer(@PathVariable String ordernummer) {
+        bestellungService.deleteBestellung(ordernummer);
+        System.out.println("Delete -> /bestellungen/"+ordernummer);
+
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
     // OK

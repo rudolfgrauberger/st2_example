@@ -82,14 +82,10 @@ public class GerichtController {
     }
     // BC6
     @DeleteMapping("/gerichte/{gericht}/{speisekarte}")
-    @ResponseBody
-    public GerichtResponse deleteSpeisekarteFromGericht(@PathVariable int gericht, @PathVariable String speisekarte) {
+    public ResponseEntity<?> deleteSpeisekarteFromGericht(@PathVariable int gericht, @PathVariable String speisekarte) {
         System.out.println("Delete -> /gerichte/{gericht}/{speisekarte}");
         gerichtService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().build().toUri();
-
-        return new GerichtResponse(location, gerichtService.getById(gericht));
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 }

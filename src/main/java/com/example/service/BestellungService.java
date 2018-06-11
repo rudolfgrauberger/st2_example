@@ -27,15 +27,11 @@ public class BestellungService {
         bestellungRepository.save(bestellung);
     }
 
-    public boolean deleteBestellung(String ordernummer) {
+    public void deleteBestellung(String ordernummer) {
         Bestellung bestellung = bestellungRepository.findByOrdernummer(ordernummer);
 
-        if(bestellung != null) {
+        if(bestellung != null)
             bestellungRepository.delete(bestellung);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public boolean changeDate(String ordernummer, DateInput datum) {

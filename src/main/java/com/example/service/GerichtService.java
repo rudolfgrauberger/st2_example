@@ -40,8 +40,9 @@ public class GerichtService {
 
     public void deleteGerichtFromSpeisekarte(int gerichtId, String speisekarte) {
         Gericht nGericht = gerichtRepository.findById(gerichtId);
-        nGericht.removeSpeisekarte
-                (speisekarteRepository.findByName(speisekarte),false);
+        Speisekarte nSpeisekarte = speisekarteRepository.findByName(speisekarte);
+        nGericht.removeSpeisekarte(nSpeisekarte,false);
+
         gerichtRepository.save(nGericht);
     }
 

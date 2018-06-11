@@ -102,17 +102,9 @@ public class SpeisekarteController {
     // BC6
     // OK
     @DeleteMapping("/speisekarten/{speisekarte}/{gericht}")
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody // location + Objekt
-    public SpeisekarteResponse deleteGerichtFromSpeisekarte(@PathVariable int gericht, @PathVariable String speisekarte) {
+    public ResponseEntity<?> deleteGerichtFromSpeisekarte(@PathVariable int gericht, @PathVariable String speisekarte) {
         System.out.println("Delete -> /speisekarte/{speisekarte}/{gericht}");
         speisekarteService.deleteGerichtFromSpeisekarte(gericht, speisekarte);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().build().toUri();
-
-        return new SpeisekarteResponse(location, speisekarteService.getByName(speisekarte));
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
-
-
 }
