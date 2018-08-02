@@ -1,11 +1,17 @@
 package com.example.entities;
 
+import com.example.Serializer.GerichtSerializer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonSerialize(using = GerichtSerializer.class)
 public class Gericht {
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +27,11 @@ public class Gericht {
    private Set<Speisekarte> speisekarten = new HashSet<Speisekarte>();
 
    @OneToMany(mappedBy = "gericht")
-   private Set<BestellungGericht> bestellungGericht = new HashSet<BestellungGericht>();
+   private Set<BestellPosition> bestellPosition = new HashSet<BestellPosition>();
+
+   public long getId() {
+      return id;
+   }
 
    public String getName() {
       return name;
@@ -39,8 +49,13 @@ public class Gericht {
       this.preis = preis;
    }
 
-   public Set<BestellungGericht> getBestellungGericht() {
-      return Collections.unmodifiableSet(bestellungGericht);
+   public Zubereitungsanleitung getAnleitung() {
+      return anleitung;
+   }
+
+   @JsonBackReference // um Endlosschleife zu verhindern
+   public Set<BestellPosition> getBestellPosition() {
+      return Collections.unmodifiableSet(bestellPosition);
    }
 
    public Set<Speisekarte> getSpeisekarte() {
@@ -57,14 +72,16 @@ public class Gericht {
       }
    }
 
-   public void removeSpeisekarte(Speisekarte karte) {
+   public void removeSpeisekarte(Speisekarte karte, boolean infinityBlocker) {
       speisekarten.remove(karte);
       // aktualisiert auch die andere Seite der Beziehung
-      karte.removeGericht(this);
+      if(infinityBlocker) return;
+
+      karte.removeGericht(this, true);
    }
 
-   public void addInPosition(BestellungGericht position) {
-      bestellungGericht.add(position);
+   public void addInPosition(BestellPosition position) {
+      bestellPosition.add(position);
    }
 
    protected Gericht() {

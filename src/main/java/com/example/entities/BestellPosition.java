@@ -1,9 +1,12 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
-public class BestellungGericht {
+public class BestellPosition {
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    private long id;
@@ -11,9 +14,11 @@ public class BestellungGericht {
    private int menge;
 
    @ManyToOne
+   @JsonManagedReference
    private Bestellung bestellung;
 
    @ManyToOne
+   @JsonManagedReference
    private Gericht gericht;
 
    public int getMenge() {
@@ -32,11 +37,11 @@ public class BestellungGericht {
       return gericht;
    }
 
-   protected BestellungGericht() {
+   protected BestellPosition() {
 
    }
 
-   public BestellungGericht(Bestellung bestellung, Gericht gericht, int menge) {
+   public BestellPosition(Bestellung bestellung, Gericht gericht, int menge) {
       this.bestellung = bestellung;
       this.gericht = gericht;
       this.setMenge(menge);

@@ -1,7 +1,7 @@
 package com.example;
 
 import com.example.entities.Bestellung;
-import com.example.entities.BestellungGericht;
+import com.example.entities.BestellPosition;
 import com.example.entities.Gericht;
 import com.example.entities.Speisekarte;
 import com.example.factories.BestellungFactory;
@@ -16,10 +16,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @Component
 public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
@@ -38,10 +37,10 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
 
-       Speisekarte vegetarisch = SpeisekarteFactory.createSpeisekarte(
+       /*Speisekarte vegetarisch = SpeisekarteFactory.createSpeisekarte("vegetarisch",
                                     new GregorianCalendar(2011,Calendar.JANUARY,1).getTime(),
                                     new GregorianCalendar(9999,Calendar.DECEMBER,31).getTime());
-       Speisekarte normal = SpeisekarteFactory.createSpeisekarte(
+       Speisekarte normal = SpeisekarteFactory.createSpeisekarte("normal",
                                     new GregorianCalendar(2011,Calendar.JANUARY,1).getTime(),
                                     new GregorianCalendar(9999,Calendar.DECEMBER,31).getTime());
 
@@ -53,7 +52,7 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
        Gericht paniertesSellerieGruenkohl = GerichtFactory.createGericht("Panierter Sellerie gebettet auf Grünkohl", 16.1, "Sehr heiß abkochen", vegetarisch);
        Gericht steakNuessen = GerichtFactory.createGericht("Steak mit Nüssen", 23.99, normal);
 
-       // Bei ManyToMany, muss die Seite die mappendBy hat (also nicht verantwortlich ist), als erstes gespeichert
+       // Bei ManyToMany, muss die Seite die mappedBy hat (also nicht verantwortlich ist), als erstes gespeichert
        // werden, denn hierbei werden die Referenzen noch nicht mitgeschrieben. Erst die Seite bei der das ManyToMany
        // steht, werden beim Speichern tatsächlich die Referenzen geschrieben.
        gerichtRepository.save(gekochtesGemuese);
@@ -71,20 +70,31 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
        // gerichtRepository.save(GerichtFactory.createGericht("Blabla", 1.99, normal));
        //speisekarteRepository.save(normal);
 
-       Bestellung bestellung1 = new Bestellung();
+        LocalDate datum1 = LocalDate.now().minusYears(2);
+        Bestellung bestellung1 = new Bestellung();
+        bestellung1.setOrdernummer("O1010");
+        bestellung1.setDatum(Date.from(datum1.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-       BestellungGericht position1 = BestellungFactory.createBestellPosition(bestellung1, gekochtesGemuese, 1);
-       BestellungGericht position2 = BestellungFactory.createBestellPosition(bestellung1, steakNuessen, 2);
+        Bestellung bestellung2 = new Bestellung();
+        bestellung2.setOrdernummer("Test2");
 
-       bestellungRepository.save(bestellung1);
+        Bestellung bestellung3 = new Bestellung();
+        bestellung3.setOrdernummer("Test3");
 
-       bestellPositionRepository.save(position1);
-       bestellPositionRepository.save(position2);
+        BestellPosition position1 = BestellungFactory.createBestellPosition(bestellung1, gekochtesGemuese, 1);
+        BestellPosition position2 = BestellungFactory.createBestellPosition(bestellung1, steakNuessen, 2);
+
+        bestellungRepository.save(bestellung1);
+        bestellungRepository.save(bestellung2);
+        bestellungRepository.save(bestellung3);
+
+        bestellPositionRepository.save(position1);
+        bestellPositionRepository.save(position2);*/
 
        // find-Methode
-       testFinds();
+       //testFinds();
 
-       printAll();
+       //printAll();
     }
 
    private void printAll() {
@@ -115,7 +125,7 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
       }
 
       gericht.getSpeisekarte().forEach(speisekarte -> {
-         System.out.println("Folgende Gerichte beinhaltet die Speisekarte mit der Gültigkeit von " + speisekarte.getGueltig_von() + " bis " + speisekarte.getGuiltig_bis() + ":");
+         System.out.println("Folgende Gerichte beinhaltet die Speisekarte mit der Gültigkeit von " + speisekarte.getGueltig_von() + " bis " + speisekarte.getGueltig_bis() + ":");
          speisekarte.getGerichte().forEach(x -> System.out.println(x));
       });
    }

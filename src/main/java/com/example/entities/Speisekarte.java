@@ -1,5 +1,10 @@
 package com.example.entities;
 
+import com.example.Serializer.SpeisekarteSerializer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Date;
@@ -7,14 +12,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonSerialize(using = SpeisekarteSerializer.class)
 public class Speisekarte {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    private long id;
 
+   private String name;
    private Date gueltig_von;
-   private Date guiltig_bis;
+   private Date gueltig_bis;
 
    @ManyToMany(fetch = FetchType.EAGER)
    private Set<Gericht> gerichte = new HashSet<Gericht>();
@@ -27,12 +34,12 @@ public class Speisekarte {
       this.gueltig_von = gueltig_von;
    }
 
-   public Date getGuiltig_bis() {
-      return guiltig_bis;
+   public Date getGueltig_bis() {
+      return gueltig_bis;
    }
 
-   public void setGuiltig_bis(Date guiltig_bis) {
-      this.guiltig_bis = guiltig_bis;
+   public void setGueltig_bis(Date guiltig_bis) {
+      this.gueltig_bis = guiltig_bis;
    }
 
    public Set<Gericht> getGerichte() {
@@ -49,23 +56,35 @@ public class Speisekarte {
       }
    }
 
-   public void removeGericht(Gericht gericht) {
+   public void removeGericht(Gericht gericht, boolean infinityBlocker) {
       gerichte.remove(gericht);
-      gericht.removeSpeisekarte(this);
+
+      if(infinityBlocker) return;
+
+      gericht.removeSpeisekarte(this, true);
    }
 
    protected Speisekarte() {
 
    }
 
-   public Speisekarte(Date von, Date bis) {
+   public Speisekarte(String name, Date von, Date bis) {
       this.setGueltig_von(von);
-      this.setGuiltig_bis(bis);
+      this.setGueltig_bis(bis);
+      this.name = name;
    }
 
    @Override
    public String toString() {
-      return String.format("ID: %s | Von: %s | Bis: %s",
-            id, gueltig_von, guiltig_bis);
+      return String.format("Name: %s | ID: %s | Von: %s | Bis: %s",
+            name, id, gueltig_von, gueltig_bis);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
    }
 }
