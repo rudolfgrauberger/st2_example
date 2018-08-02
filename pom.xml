@@ -35,11 +35,14 @@
 			<artifactId>h2</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<version>2.0.4.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
@@ -49,8 +52,9 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>2.6.0</version>
+			<version>3.10.0</version>
 		</dependency>
+
 
 	</dependencies>
 

@@ -49,6 +49,8 @@ public class GerichtController {
 
         return response;
     }
+
+
     // OK
     @PostMapping("/gerichte")
     @ResponseBody // 201 created + URI im Header Location + Objekt mit geänderten/Neuen Werten

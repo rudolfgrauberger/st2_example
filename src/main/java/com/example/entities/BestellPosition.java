@@ -18,7 +18,7 @@ public class BestellPosition {
    private Bestellung bestellung;
 
    @ManyToOne
-   @JsonBackReference
+   @JsonManagedReference
    private Gericht gericht;
 
    public int getMenge() {

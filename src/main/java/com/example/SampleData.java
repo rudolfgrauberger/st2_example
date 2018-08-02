@@ -125,7 +125,7 @@ public class SampleData implements ApplicationListener<ContextRefreshedEvent> {
       }
 
       gericht.getSpeisekarte().forEach(speisekarte -> {
-         System.out.println("Folgende Gerichte beinhaltet die Speisekarte mit der Gültigkeit von " + speisekarte.getGueltig_von() + " bis " + speisekarte.getGuiltig_bis() + ":");
+         System.out.println("Folgende Gerichte beinhaltet die Speisekarte mit der Gültigkeit von " + speisekarte.getGueltig_von() + " bis " + speisekarte.getGueltig_bis() + ":");
          speisekarte.getGerichte().forEach(x -> System.out.println(x));
       });
    }

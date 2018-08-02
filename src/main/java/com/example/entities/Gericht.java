@@ -1,7 +1,9 @@
 package com.example.entities;
 
+import com.example.Serializer.GerichtSerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -9,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonSerialize(using = GerichtSerializer.class)
 public class Gericht {
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,12 +49,15 @@ public class Gericht {
       this.preis = preis;
    }
 
-   @JsonManagedReference // um Endlosschleife zu verhindern
+   public Zubereitungsanleitung getAnleitung() {
+      return anleitung;
+   }
+
+   @JsonBackReference // um Endlosschleife zu verhindern
    public Set<BestellPosition> getBestellPosition() {
       return Collections.unmodifiableSet(bestellPosition);
    }
 
-   @JsonBackReference
    public Set<Speisekarte> getSpeisekarte() {
       // erzwingt Benutzung der addSpeisekarte- und removeSpeisekarte-Methoden
       return Collections.unmodifiableSet(speisekarten);
